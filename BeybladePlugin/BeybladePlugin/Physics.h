@@ -111,41 +111,73 @@ struct Quaternion
 	}
 };
 
-struct RigidBody
+struct State
 {
-	struct State
+	// primary
+	Quaternion orientation;
+	Vec angularMomentum;
+
+	// secondary
+	Quaternion spin;
+
+	Vec angularVelocity;
+	Vec linearV;
+
+	// constant
+	float inertia;
+	float inertiaInv;
+
+	void recalc()
 	{
-		// primary
-		Quaternion orientation;
-		Vec angularMomentum;
+		angularVelocity = angularMomentum * inertiaInv;
 
-		// secondary
-		Quaternion spin;
+		orientation.normalize();
 
-		Vec angularVelocity;
-		Vec linearV;
+		Quaternion q;
+		q.w = 0.0f;
+		q.x = angularVelocity.x;
+		q.y = angularVelocity.y;
+		q.z = angularVelocity.z;
 
-		// constant
-		float inertia;
-		float inertiaInv;
-
-		void recalc()
-		{
-			angularVelocity = angularMomentum * inertiaInv;
-
-			orientation.normalize();
-
-			Quaternion q;
-			q.w = 0.0f;
-			q.x = angularVelocity.x;
-			q.y = angularVelocity.y;
-			q.z = angularVelocity.z;
-
-			spin = q * 0.5f * orientation;
-		}
-	};
+		spin = q * 0.5f * orientation;
+	}
 };
 
+#include "BeybladeMath.h"
+struct RigidBody
+{
+	State state;
+	float friction;
+	Vec pos;
+	Vec vel;
+	Vec com; // center of mass
+	Quaternion orientation;
+	Vec rot;
+	Mat3 orientationMatrix;
+	Mat3 orientationMatrxInv;
+	Mat3 worldInertiaInv;
+	float mass;
+	Mat3 inertiaTensorInv;
+	Mat3 massMatrixInv;
+
+	// f: force applied
+	// s: State
+	// p: point to applie force
+	void addTorque(float f, State s, Vec p)
+	{
+		// F_torque = F * (p - x)
+					// F = force being applied				- Vec
+					// p = point at which force is applied	- Vec
+					// x = center of mass of the object		- Vec
+		float linear = f;
+		Vec torque = (p - com) * f;
+	}
+
+	void addForce(Vec f)
+	{
+
+	}
+};
 // derivatives of state values
 struct Derivative
 {
@@ -153,7 +185,7 @@ struct Derivative
 	Vec torque;
 };
 
-Vec torque(State &s, double t)
+Vec torque(State &s, float t)
 {
 	return Vec(1, 0, 0) - s.angularVelocity * 0.1f;
 }
