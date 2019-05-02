@@ -42,6 +42,18 @@ struct Vec
 		return ret;
 	}
 
+	float cross(Vec v)
+	{
+		return (x * v.x) + (x * v.y) + (x * v.z) +
+			(y * v.x) + (y * v.y) + (y * v.z) +
+			(z * v.x) + (z * v.y) + (z * v.z);
+	}
+
+	float dot(Vec v)
+	{
+		return (x * v.x) + (y * v.y) + (z * v.z);
+	}
+
 	Vec()
 	{}
 
@@ -99,34 +111,39 @@ struct Quaternion
 	}
 };
 
-struct State
+struct RigidBody
 {
-	// primary
-	Quaternion orientation;
-	Vec angularMomentum;
-
-	// secondary
-	Quaternion spin;
-	Vec angularVelocity;
-
-	// constant
-	float inertia;
-	float inertiaInv;
-
-	void recalc()
+	struct State
 	{
-		angularVelocity = angularMomentum * inertiaInv;
+		// primary
+		Quaternion orientation;
+		Vec angularMomentum;
 
-		orientation.normalize();
+		// secondary
+		Quaternion spin;
 
-		Quaternion q;
-		q.w = 0.0f;
-		q.x = angularVelocity.x;
-		q.y = angularVelocity.y;
-		q.z = angularVelocity.z;
+		Vec angularVelocity;
+		Vec linearV;
 
-		spin = q * 0.5f * orientation;
-	}
+		// constant
+		float inertia;
+		float inertiaInv;
+
+		void recalc()
+		{
+			angularVelocity = angularMomentum * inertiaInv;
+
+			orientation.normalize();
+
+			Quaternion q;
+			q.w = 0.0f;
+			q.x = angularVelocity.x;
+			q.y = angularVelocity.y;
+			q.z = angularVelocity.z;
+
+			spin = q * 0.5f * orientation;
+		}
+	};
 };
 
 // derivatives of state values
@@ -140,3 +157,29 @@ Vec torque(State &s, double t)
 {
 	return Vec(1, 0, 0) - s.angularVelocity * 0.1f;
 }
+
+
+/*
+Lz is constant
+^z * L = Lz
+
+L3 is constant
+e3 * L = L3
+
+Energy is constant
+(1/2)(I_x)(w_x)(w_y) + (M_g)(R_cm)(e3) * ^z = E
+
+speed at which top prevesses:
+
+theta = (Lz - L3cos(theta)) / ((I_star)(sin^2(theta)))
+
+make gyroscope keep balance
+
+get world location
+
+velocity at single point
+v_point = v_linear + v_angluar cross(p - x)
+									p = point on rigid body
+									x = center of mass of the object
+
+*/
