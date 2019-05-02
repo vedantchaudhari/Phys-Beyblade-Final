@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PhysicsDataStructs : MonoBehaviour
 {
+    /* Physics Data Structures for RigidBody Dynamics */
     [StructLayout(LayoutKind.Sequential, Size = 20), System.Serializable]
     public struct RigidBodyData
     {
@@ -20,5 +21,15 @@ public class PhysicsDataStructs : MonoBehaviour
         public float angle;
         [MarshalAsAttribute(UnmanagedType.R4, SizeConst = 4)]
         public float angularVelocity;
+
+        [MarshalAsAttribute(UnmanagedType.R4, SizeConst = 4)]
+        public float torque;
     }
+
+    /* Physics Functions */
+
+
+    /* Monobehaviour Functions */
+    void Start() { }
+    void Update() { }
 }

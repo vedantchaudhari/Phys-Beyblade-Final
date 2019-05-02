@@ -17,7 +17,7 @@ public class BeybladeController : MonoBehaviour
         mRigidbody.AddForce(Vector3.forward * 1000);
     }
 
-    // Start is called before the first frame update
+    /* Monobehaviour Functions */
     void Start()
     {
         mRigidbody = GetComponent<Rigidbody>();
@@ -27,7 +27,6 @@ public class BeybladeController : MonoBehaviour
         Launch();
     }
 
-    // Update is called once per frame
     void Update()
     {
     }
