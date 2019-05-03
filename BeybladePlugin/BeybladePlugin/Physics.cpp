@@ -1,6 +1,21 @@
 #include "Physics.h"
 #include "stdafx.h"
 
+extern "C"
+{
+	__declspec(dllexport)
+	int Foo(int a, int b)
+	{
+		return a + b;
+	}
+}
+
+/*
+__declspec(dllexport)
+int Foo(int a, int b)
+{
+	return a + b;
+}*/
 
 /*
 Derivative evaluate(const State &init, double t, float dt,

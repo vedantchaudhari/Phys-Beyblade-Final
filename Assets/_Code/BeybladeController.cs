@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class BeybladeController : MonoBehaviour
+public class BeybladeController : PhysicsDataStructs
 {
     [SerializeField]
     private Rigidbody mRigidbody;
@@ -13,7 +13,8 @@ public class BeybladeController : MonoBehaviour
     public void Launch()
     {
         mRigidbody.isKinematic = false;
-        mRigidbody.AddTorque(new Vector3(0, 2000 * 100, 0));
+        mRigidbody.AddTorque(new Vector3(0, 10000 * 100, 0));
+ //     mRigidbody.angularVelocity
         mRigidbody.AddForce(Vector3.forward * 1000);
     }
 
@@ -25,6 +26,8 @@ public class BeybladeController : MonoBehaviour
         mRigidbody.centerOfMass = mCenterOfMass;
 
         Launch();
+
+        Debug.Log(Foo(1, 2));
     }
 
     void Update()

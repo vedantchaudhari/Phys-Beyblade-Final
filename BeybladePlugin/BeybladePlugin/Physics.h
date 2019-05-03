@@ -4,6 +4,21 @@
 #include <cmath>
 #include <tgmath.h>
 
+extern "C"
+{
+	/* Physics Data Structs */
+	struct Vector3
+	{
+		float x;
+		float y;
+		float z;
+	};
+
+	__declspec(dllexport) Vector3 CalculateAngularVelocity(float x, float y, float z);
+	__declspec(dllexport) int Foo(int a, int b);
+}
+
+/*
 // vector of the object
 struct Vec
 {
@@ -102,7 +117,7 @@ struct Quaternion
 	{
 		Quaternion ret;
 
-		ret.w = -x * q.x - y * q.y - z * q.z + w * q.w;
+		ret.w = -x * q.x - y * q.y - z * q.z + w * q.w;  
 		ret.x = x * q.w + y * q.z - z * q.y + w * q.x;
 		ret.y = -x * q.z + y * q.w + z * q.x + w * q.y;
 		ret.z = x * q.y - y * q.x + z * q.w + w * q.z;
@@ -214,4 +229,5 @@ v_point = v_linear + v_angluar cross(p - x)
 									p = point on rigid body
 									x = center of mass of the object
 
+*/
 */
