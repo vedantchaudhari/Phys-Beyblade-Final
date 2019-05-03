@@ -27,8 +27,8 @@ public class PhysicsDataStructs : MonoBehaviour
     }
 
     /* Physics Functions */
-    [DllImport("BeybladePlugin")]
-    public static extern int Foo(int a, int b);
+   [DllImport("BeybladePhysics")]
+   public static extern int Foo(int a, int b);
 
     /* Monobehaviour Functions */
     void Start() { }

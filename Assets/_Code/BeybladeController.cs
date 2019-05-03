@@ -9,13 +9,18 @@ public class BeybladeController : PhysicsDataStructs
     private Rigidbody mRigidbody;
     [SerializeField]
     private Vector3 mCenterOfMass;
+    [SerializeField]
+    public bool isPlayerTwo;
 
     public void Launch()
     {
         mRigidbody.isKinematic = false;
-        mRigidbody.AddTorque(new Vector3(0, 10000 * 100, 0));
+        mRigidbody.AddTorque(new Vector3(0, 20000 * 100, 0));
  //     mRigidbody.angularVelocity
-        mRigidbody.AddForce(Vector3.forward * 1000);
+        if (!isPlayerTwo)
+            mRigidbody.AddForce(Vector3.forward * 1000);
+        else
+            mRigidbody.AddForce(Vector3.back * 1000);
     }
 
     /* Monobehaviour Functions */
