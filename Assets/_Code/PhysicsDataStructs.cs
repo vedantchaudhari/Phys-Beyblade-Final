@@ -27,8 +27,12 @@ public class PhysicsDataStructs : MonoBehaviour
     }
 
     /* Physics Functions */
-   [DllImport("BeybladePhysics")]
-   public static extern int Foo(int a, int b);
+    [DllImport("BeybladePhysics")]   
+    public static extern int Foo(int a, int b);
+
+    [DllImport("BeybladePhysics", CallingConvention = CallingConvention.Cdecl)]
+    public static extern void AddImpulse_Wrapper(Rigidbody rb, Vector3 force, float time);
+
 
     /* Monobehaviour Functions */
     void Start() { }

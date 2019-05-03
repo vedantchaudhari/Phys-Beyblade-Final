@@ -15,7 +15,8 @@ public class BeybladeController : PhysicsDataStructs
     public void Launch()
     {
         mRigidbody.isKinematic = false;
-        mRigidbody.AddTorque(new Vector3(0, 20000 * 100, 0));
+        //mRigidbody.AddTorque(new Vector3(0, 20000 * 100, 0));
+        AddImpulse_Wrapper(mRigidbody, new Vector3(1000, 0, 0), 2.5f);
  //     mRigidbody.angularVelocity
         if (!isPlayerTwo)
             mRigidbody.AddForce(Vector3.forward * 1000);
